@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calorie and Nutrition Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            text-align: center;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        input, select {
+            padding: 10px;
+            margin: 10px;
+            width: 80%;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        .result {
+            margin-top: 20px;
+            display: none;
+            animation: fadeIn 1s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+        .nutrition-img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calorie and Nutrition Calculator</h1>
+        <p>Enter your details to calculate your daily calorie needs and nutritional requirements.</p>
+        
+        <form id="calcForm">
+            <label for="weight">Weight (kg):</label><br>
+            <input type="number" id="weight" name="weight" required><br>
+
+            <label for="height">Height (cm):</label><br>
+            <input type="number" id="height" name="height" required><br>
+
+            <label for="age">Age:</label><br>
+            <input type="number" id="age" name="age" required><br>
+
+            <label for="gender">Gender:</label><br>
+            <select id="gender" name="gender" required>
+                <option value="M">Male</option>
+                <option value="F">Female</option>
+            </select><br>
+
+            <button type="button" onclick="calculate()">Calculate</button>
+        </form>
+
+        <div class="result" id="result">
+            <h3>Results:</h3>
+            <p id="calories"></p>
+            <p id="protein"></p>
+            <p id="carbs"></p>
+            <p id="fats"></p>
+
+            <!-- Add some images for a creative touch -->
+            <img src="https://via.placeholder.com/100?text=Protein" alt="Protein" class="nutrition-img">
+            <img src="https://via.placeholder.com/100?text=Carbs" alt="Carbs" class="nutrition-img">
+            <img src="https://via.placeholder.com/100?text=Fats" alt="Fats" class="nutrition-img">
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            let weightKg = parseFloat(document.getElementById("weight").value);
+            let heightCm = parseFloat(document.getElementById("height").value);
+            let age = parseFloat(document.getElementById("age").value);
+            let gender = document.getElementById("gender").value;
+
+            let weightLbs = weightKg * 2.20462262;
+            let heightInches = heightCm * 0.393700787;
+            let totalCalories = 0;
+
+            if (gender === 'M') {
+                totalCalories = weightLbs * 13.8 + heightInches * 5 + (67 - age * 6.8);
+            } else if (gender === 'F') {
+                totalCalories = weightLbs * 9.6 + heightInches * 1.8 + (655 - age * 4.7);
+            }
+
+            let proteinCal = totalCalories * 0.55;
+            let carbsCal = totalCalories * 0.35;
+            let fatsCal = totalCalories * 0.15;
+
+            document.getElementById("calories").innerText = `Total Calories: ${totalCalories.toFixed(2)} cal`;
+            document.getElementById("protein").innerText = `Protein Needs: ${proteinCal.toFixed(2)} cal (${(proteinCal / 4).toFixed(2)} grams)`;
+            document.getElementById("carbs").innerText = `Carbohydrates Needs: ${carbsCal.toFixed(2)} cal (${(carbsCal / 4).toFixed(2)} grams)`;
+            document.getElementById("fats").innerText = `Fats Needs: ${fatsCal.toFixed(2)} cal (${(fatsCal / 9).toFixed(2)} grams)`;
+
+            document.getElementById("result").style.display = "block";
+        }
+    </script>
+</body>
+</html>
